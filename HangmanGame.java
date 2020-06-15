@@ -1,9 +1,7 @@
 public class HangmanGame {
-	//TODO Isaac make these private, creating getters and setters if needed
 	private String word;
-	private char[] letters; 
-	public int wordLength; // Length of word
-	public int lives; // # Of lives
+	private char[] letters;
+	private int lives; // # Of lives
 	private char[] progress; // Char array of current progress
 	private boolean gameOver = false; // boolean of if game is over
 
@@ -30,7 +28,6 @@ public class HangmanGame {
 			word = randomWord();
 		}
 		letters = word.toCharArray(); // Splits word to array of chars
-		wordLength = word.length(); // Length of word
 		
 		progress = createBlanks();
 		hangmanGui.updateWordInProgress(progress);
