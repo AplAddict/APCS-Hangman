@@ -1,3 +1,4 @@
+import javax.swing.JOptionPane;
 public class HangmanGame {
 	private String word;
 	private char[] letters;
@@ -22,7 +23,8 @@ public class HangmanGame {
 	HangmanGame(HangmanGui hangmanGui, int startLives) {
 		lives = startLives;
 		if (hangmanGui.getNumPlayers() == 2) {
-			word = "getwordfrompopupbox";//TODO Elie add code for word input via JOptionPane.showInputDialog
+			Object prompt = "Enter secret word: ";
+			word = JOptionPane.showInputDialog(hangmanGui, prompt, "Hangman", JOptionPane.QUESTION_MESSAGE).toString().toLowerCase();
 			}
 		else {
 			word = randomWord();
@@ -97,6 +99,4 @@ public class HangmanGame {
 	public void setGameOver(boolean gameOver) {
 		this.gameOver = gameOver;
 	}
-
-
 }

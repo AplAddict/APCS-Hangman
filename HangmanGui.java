@@ -25,7 +25,7 @@ public class HangmanGui extends JFrame {
      * 
      */
     private static final long serialVersionUID = 1L;
-    private JTextField wordInProgress;
+    private JLabel wordInProgress;
     private JLabel gallows;
     private JLabel livesLeft;
     private JLabel currentChar;// empty initially, latest keystroke
@@ -36,6 +36,7 @@ public class HangmanGui extends JFrame {
     private static final String keys = "qwertyuiopasdfghjkl-zxcvbnm";
     private JButton newGameButton = new JButton("<html><center>" + "Start" + "<br>" + "new game" + "</center></html>");
     private JLabel newGame = new JLabel("false");
+    private JButton giveUpButton = new JButton("I give up");
 
     public char getNextChar() {
         char temp = ' ';
@@ -51,12 +52,14 @@ public class HangmanGui extends JFrame {
     }
 
     public void youWin() {
-        JOptionPane.showMessageDialog(this, "You guessed the word!\n" + "Nice win.");
+        JOptionPane.showMessageDialog(this, "You guessed the word!\n" + "Nice win.","Hangman",JOptionPane.INFORMATION_MESSAGE);
+        lockKeys();
     }
 
     public void youLose(String word) {
         JOptionPane.showMessageDialog(this,
-            "Game over you suck.\nThe correct word was " + word + " how did you not guess that?");
+            "Game over you suck.\nThe correct word was " + word + " how did you not guess that?", "Hangman", JOptionPane.INFORMATION_MESSAGE);
+        lockKeys();
     }
 
     public int getNumPlayers() {
@@ -72,12 +75,14 @@ public class HangmanGui extends JFrame {
         for (int i = 0; i < keyButtons.length; i++) {
             keyButtons[i].setEnabled(true);
         }
+        giveUpButton.setEnabled(true);
     }
 
     private void lockKeys() {
         for (int i = 0; i < keyButtons.length; i++) {
             keyButtons[i].setEnabled(false);
         }
+        giveUpButton.setEnabled(false);
     }
 
     private void initDisplay(int totalLives, String newSecretWord) {
@@ -97,6 +102,9 @@ public class HangmanGui extends JFrame {
         // init graphics and all member variables
         initDisplay(totalLives, newSecretWord);
         setOurCopyOfSecretWord(newSecretWord);
+        if (newSecretWord.equals("")){
+            lockKeys();
+        }
     }
 
     /**
@@ -112,10 +120,10 @@ public class HangmanGui extends JFrame {
         panel.setLayout(new GridLayout(0, 10));//10 columns, as many rows as needed
         getContentPane().add(panel);
 
-        wordInProgress = new JTextField();
+        wordInProgress = new JLabel();
         wordInProgress.setFont(new Font("SansSerif", Font.PLAIN, 12));
         panel.add(wordInProgress);
-        wordInProgress.setColumns(15);// length of longest word? May need to be higher, but would want wider box
+        // wordInProgress.setColumns(15);// length of longest word? May need to be higher, but would want wider box
 
         gallows = new JLabel("");
         gallows.setHorizontalAlignment(SwingConstants.CENTER);
@@ -151,12 +159,12 @@ public class HangmanGui extends JFrame {
                 }
             });
 
-        JButton giveUpButton = new JButton("I give up");
+        
         panel.add(giveUpButton);
         giveUpButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     youLose(getOurCopyOfSecretWord());
-                    lockKeys();
+                    // lockKeys();
                 }
             });
 
@@ -194,8 +202,8 @@ public class HangmanGui extends JFrame {
         }
         currentChar = new JLabel("");
         panel.add(currentChar);
-        panel.add(newGame);
         newGame.setVisible(false);
+        panel.add(newGame);
         initGameGui(totalLives, newSecretWord);
 
         // calling program should setVisible(true)
