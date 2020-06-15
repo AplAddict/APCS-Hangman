@@ -16,7 +16,6 @@ public class Hangman {
 
         do {
 
-            //TODO, Moshe, wait here until they say New Game (maybe confirm or give up first)
 
             if(!frame.getNewGame()){
                 try{

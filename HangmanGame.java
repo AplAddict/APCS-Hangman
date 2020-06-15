@@ -1,5 +1,4 @@
 public class HangmanGame {
-	//TODO Isaac make these private, creating getters and setters if needed
 	private String word;
 	private char[] letters;
 	private int lives; // # Of lives
