@@ -147,8 +147,7 @@ public class HangmanGui extends JFrame {
                     HangmanGui.this.setNewGame(true);
                     System.out.println("new game button was pressed");
                     // no need to unlockKeys, handled in call to initDisplay via initGameGui
-                    // but for now, before "new game" works, it blocks the second game
-                    // TODO Moshe, add logic to let Hangman know to start new game, and maybe in the meantime stop any action on current game (disable all keys?)
+                    // and for now, before "new game" works, it blocks the second game, which is a good thing
                 }
             });
 
@@ -217,11 +216,34 @@ public class HangmanGui extends JFrame {
         wordInProgress.setText(result);
     }
 
+    private String getGallowsFileName(int numLives){
+        String result = "https://upload.wikimedia.org/wikipedia/commons/8/8b/Hangman-0.png"; // default to empty gallows
+        if (numLives == 0){
+            result = "https://upload.wikimedia.org/wikipedia/commons/d/d6/Hangman-6.png";
+        }
+        else if (numLives == 1){
+            result = "https://upload.wikimedia.org/wikipedia/commons/6/6b/Hangman-5.png";
+        }
+        else if (numLives == 2){
+            result = "https://upload.wikimedia.org/wikipedia/commons/2/27/Hangman-4.png";
+        }
+        else if (numLives == 3){
+            result = "https://upload.wikimedia.org/wikipedia/commons/9/97/Hangman-3.png";
+        }
+        else if (numLives == 4)
+        {
+            result = "https://upload.wikimedia.org/wikipedia/commons/7/70/Hangman-2.png";
+        }
+        else if (numLives == 5){
+            result = "https://upload.wikimedia.org/wikipedia/commons/3/30/Hangman-1.png";
+        }
+        return result;
+    }
+
     public void showLivesLeft(int numLivesLeft) {
         BufferedImage img = null;
-        // TODO Elie choose image based on num lives left
         try {
-            img = ImageIO.read(new URL("https://upload.wikimedia.org/wikipedia/commons/8/8b/Hangman-0.png"));
+            img = ImageIO.read(new URL(getGallowsFileName(numLivesLeft)));
         } catch (MalformedURLException e) {
             System.out.println("Error: bad URL requested");
             System.out.println(e.getMessage());
